@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Viz</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="index.css">
+
+    <!-- Scripts -->
+    <script src="helpers.js" defer></script>
+    <script src="edge-canvas.js" defer></script>
+    <script src="index.js" defer></script>
+</head>
+<body oncontextmenu="return false;">
+    <main>
+        <canvas class="body__item" id="edge-canvas" width="500" height="500"></canvas>
+        <div class="body__item" id="node-space">
+            <div class="node" id="node-1">1</div>
+            <div class="node" id="node-2">2</div>
+        </div>
+    </main>
+    <div class="options">
+        <button class="options-button" id="button-add_node">+</button>
+        <button class="options-button" id="button-save_data" onclick="saveData()">Save</button>
+        <button class="options-button" id="button-load_data" onclick="loadData()">Load</button>
+        <button class="options-button" id="button-export_data" onclick="exportData()">Export</button>
+    </div>
+</body>
+</html>
