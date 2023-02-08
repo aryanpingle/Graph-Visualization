@@ -8,12 +8,15 @@ let mouseOverNode = ""
 function setup() {
     querySelectorAll(".node").forEach(addNodeHandler)
 
+    saveData("default")
+
     // Add new node
     document.querySelector("#button-add_node").onclick = function(event) {
-        const newNode = createNode()
-        addNodeHandler(newNode)
-        document.querySelector("#node-space").append(newNode)
+        createNode()
+        c.colorConnectedComponents()
     }
+
+    loadData()
 }
 
 /**
@@ -25,6 +28,8 @@ function createNode(nodeNumber) {
     newNode.classList.add("node")
     newNode.id = "node-" + newNodeNumber
     newNode.innerHTML = newNodeNumber
+    addNodeHandler(newNode)
+    document.querySelector("#node-space").append(newNode)
 
     return newNode
 }
@@ -107,9 +112,10 @@ window.onmouseup = event => {
     c.update()
 }
 
-function saveData() {
+function saveData(dataName) {
+    if(dataName) dataName += "--"
     // Save Edges Data
-    localStorage.setItem("edge-data", JSON.stringify(Array.from(c.edgeIDs)))
+    localStorage.setItem((dataName || "") + "edge-data", JSON.stringify(Array.from(c.edgeIDs)))
 
     // Save Node Data
     let nodes = querySelectorAll(".node")
@@ -117,12 +123,13 @@ function saveData() {
     for (const node of nodes) {
         node_data[node.id] = node.style.transform.replace("translate", "")
     }
-    localStorage.setItem("node-data", JSON.stringify(node_data))
+    localStorage.setItem((dataName || "") + "node-data", JSON.stringify(node_data))
 }
 
-function loadData() {
-    let edge_data = localStorage.getItem("edge-data")
-    let node_data = localStorage.getItem("node-data")
+function loadData(dataName) {
+    if(dataName) dataName += "--"
+    let edge_data = localStorage.getItem((dataName || "") + "edge-data")
+    let node_data = localStorage.getItem((dataName || "") + "node-data")
 
     if(!edge_data && !node_data) {
         print("No data found")
@@ -141,15 +148,18 @@ function loadData() {
     for(const [nodeID, node_transform] of Object.entries(node_data)) {
         let node = createNode(nodeID.replace("node-", ""))
         node.style.transform = `translate${node_transform}`
-        addNodeHandler(node)
-        document.querySelector("#node-space").append(node)
     }
 
     c.update()
+    c.colorConnectedComponents()
 }
 
 function exportData() {
     print(c.exportData())
 
     navigator.clipboard.writeText(c.exportData())
+}
+
+function resetData() {
+    loadData("default")
 }
