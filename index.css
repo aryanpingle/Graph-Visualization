@@ -122,6 +122,10 @@ main {
     background-color: orange;
 }
 
+#button-reset_data {
+    background-color: red;
+}
+
 #button-export_data {
     background-color: burlywood;
 }
