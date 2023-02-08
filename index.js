@@ -51,6 +51,9 @@ function addNodeHandler(node) {
             // Delete node
             c.removeNode("#"+node.id)
             node.remove()
+
+            c.update()
+            c.colorConnectedComponents()
         }
         else {
             // Right Mouse Button
